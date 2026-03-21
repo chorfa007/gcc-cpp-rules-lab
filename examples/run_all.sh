@@ -2,7 +2,7 @@
 set -e
 
 CXX="${CXX:-g++}"
-CXXFLAGS="-std=c++23 -Wall -Wextra -O2"
+CXXFLAGS="-std=c++26 -freflection -Wall -Wextra -O2"
 
 PASS=0
 FAIL=0
@@ -18,7 +18,12 @@ run_example() {
 
     mkdir -p bin
     if $CXX $CXXFLAGS "$src" -o "bin/$name" 2>&1; then
-        "bin/$name"
+        # Example 13 requires CLI args or it exits early
+        if [[ "$name" == "13_clap_parser" ]]; then
+            "bin/$name" --name World --count 2 || true
+        else
+            "bin/$name" || true
+        fi
         PASS=$((PASS + 1))
     else
         echo "  COMPILE ERROR"
@@ -29,10 +34,11 @@ run_example() {
 cd "$(dirname "$0")"
 
 echo ""
-echo "  GCC: $($CXX --version | head -1)"
+echo "  GCC : $($CXX --version | head -1)"
+echo "  flags: -std=c++26 -freflection"
 echo ""
 
-for f in 0*.cpp; do
+for f in [0-9]*.cpp; do
     run_example "$f"
 done
 

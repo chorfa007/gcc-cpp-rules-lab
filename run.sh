@@ -57,7 +57,9 @@ case "${1:-}" in
 
   demo)
     image_exists || build
-    docker run --rm -it "$IMAGE" bash -c "./run_all.sh" ;;
+    docker run --rm \
+      -v "$(pwd)/examples:/examples" \
+      "$IMAGE" bash "./run_all.sh" ;;
 
   clean)
     docker rm -f "$CONTAINER" 2>/dev/null || true

@@ -1,5 +1,5 @@
 CXX      := g++
-CXXFLAGS := -std=c++23 -Wall -Wextra -O2 -g
+CXXFLAGS := -std=c++26 -freflection -Wall -Wextra -O2 -g
 
 SRCS := $(wildcard 0*.cpp)
 BINS := $(patsubst %.cpp,bin/%,$(SRCS))
