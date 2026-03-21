@@ -1,0 +1,12 @@
+services:
+  cpp-lab:
+    image: gcc-cpp-rules-lab:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cpp-rules-lab
+    stdin_open: true
+    tty: true
+    volumes:
+      # Live-mount examples so you can edit from host and recompile inside container
+      - ./examples:/examples
