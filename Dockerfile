@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y \
         libgmp-dev libmpfr-dev libmpc-dev libisl-dev \
         wget curl git vim less make \
         libboost-dev \
+        nlohmann-json3-dev \
+        libboost-json-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone GCC trunk (reflection merged into master Jan 19 2026)
@@ -24,6 +26,11 @@ RUN mkdir /gcc-build && cd /gcc-build && \
     && make -j$(nproc) \
     && make install-strip \
     && rm -rf /gcc-build /gcc-src
+
+# Install RapidJSON from GitHub (apt 1.1.0 has const-assignment bug rejected by GCC trunk)
+RUN git clone --depth=1 https://github.com/Tencent/rapidjson /tmp/rapidjson \
+    && cp -r /tmp/rapidjson/include/rapidjson /usr/include/rapidjson \
+    && rm -rf /tmp/rapidjson
 
 # Put our GCC first on PATH
 ENV PATH="/opt/gcc/bin:${PATH}"

@@ -1,12 +1,13 @@
 services:
-  cpp-lab:
-    image: gcc-cpp-rules-lab:latest
+  gcc-lab:
+    image: cpp-reflection-lab:gcc
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: cpp-rules-lab
+    container_name: cpp-reflection-lab-gcc
     stdin_open: true
     tty: true
     volumes:
-      # Live-mount examples so you can edit from host and recompile inside container
       - ./examples:/examples
+    environment:
+      - CXX=g++
